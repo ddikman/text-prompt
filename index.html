@@ -6,10 +6,16 @@
 
     <style>
 
+      :root {
+        --left-gradient: #FDC830;
+        --right-gradient: #F37335;
+      }
+
       body {
-        background: #FDC830;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #F37335, #FDC830);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #F37335, #FDC830); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        font-family: 'Oswald', sans-serif;
+        background: var(--left-gradient);  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, var(--right-gradient), var(--left-gradient));  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, var(--right-gradient), var(--left-gradient)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
 
       .text {
@@ -19,7 +25,6 @@
         margin-top: 100px;
         width: 600px;
         font-size: 3em;
-        font-family: 'Oswald', sans-serif;
         color: rgb(255, 255, 255);
         text-shadow: 2px 2px #333333;
       }
@@ -27,9 +32,84 @@
       .text:focus {
         outline: none;
       }
+
+      footer {
+        bottom: 20px;
+        position: absolute;
+        text-align: center;
+        display: block;
+        width: 100%;
+      }
+
+      footer, a, a:visited {
+        text-decoration: none;
+        color: rgb(39, 39, 39);
+        opacity: 0.8;
+      }
+
+      a:hover {
+        color: white;
+      }
     </style>
+
+    <script>
+      const gradients = [
+        ['Evening Night', '#005aa7', '#fffde4'],
+        ['Vanusa', '#da4453', '#89216b'],
+        ['Shifty', '#636363', '#a2ab58'],
+        ['eXpresso', '#ad5389', '#3c1053'],
+        ['Slight Ocean View', '#a8c0ff', '#3f2b96'],
+        ['Moon Purple', '#4e54c8', '#8f94fb'],
+        ['Quepal', '#11998e', '#38ef7d']
+      ]
+
+      let currentGradient = 'default';
+      function getRandomGradient() {
+        const gradientIndex = Math.floor(Math.random() * gradients.length)
+        const gradientName = gradients[gradientIndex][0]
+        return gradientName
+      }
+
+      function setRandomGradient() {
+        let gradient = currentGradient;
+        while (gradient === currentGradient) {
+          gradient = getRandomGradient()
+        }
+
+        setGradient(gradient)
+      }
+
+      function setGradient(gradientName) {
+        const gradient = gradients.find(gradient => gradient[0] === gradientName)
+        if (!gradient) {
+          console.error('No such gradient: ' + gradientName)
+          return
+        }
+        document.documentElement.style.setProperty('--left-gradient', gradient[1])
+        document.documentElement.style.setProperty('--right-gradient', gradient[2])
+        const title = `text-prompt with ${gradientName} gradient`
+        window.history.pushState(gradientName, title, `?gradient=${gradientName}`);
+        currentGradient = gradientName
+      }
+
+      function setGradientFromQueryString() {
+        const params = new URLSearchParams(window.location.search)
+        const gradientName = params.get('gradient')
+        console.log(gradientName)
+        if (gradientName) {
+          setGradient(gradientName)
+        }
+      }
+
+      setGradientFromQueryString()
+
+    </script>
   </head>
   <body>
     <div spellcheck="false" contenteditable="true" class="text">Text</div>
+
+    <footer>
+      <a href="https://github.com/ddikman/text-prompt">fork on github</a> | <a href="#" onclick="setRandomGradient(); return false">randomize gradient</a>
+    </footer>
   </body>
 </html>
