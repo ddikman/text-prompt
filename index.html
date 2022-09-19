@@ -51,6 +51,13 @@
         color: white;
       }
     </style>
+  </head>
+  <body>
+    <div spellcheck="false" contenteditable="true" class="text">Edit this text by clicking and writing</div>
+
+    <footer>
+      <a href="https://github.com/ddikman/text-prompt">fork on github</a> | <a href="#" onclick="setRandomGradient(); return false">randomize gradient</a>
+    </footer>
 
     <script>
       const gradients = [
@@ -104,12 +111,5 @@
       setGradientFromQueryString()
 
     </script>
-  </head>
-  <body>
-    <div spellcheck="false" contenteditable="true" class="text">Text</div>
-
-    <footer>
-      <a href="https://github.com/ddikman/text-prompt">fork on github</a> | <a href="#" onclick="setRandomGradient(); return false">randomize gradient</a>
-    </footer>
   </body>
 </html>
